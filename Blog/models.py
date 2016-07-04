@@ -2,6 +2,20 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from collections import defaultdict
+from django.core.urlresolvers import reverse
+
+
+class ArticleManage(models.Manager):
+    """
+    继承自默认的 Manager ，为其添加一个自定义的 archive 方法
+    """
+    def archive(self):
+        date_list = Article.objects.datetimes('created_time', 'month', order='DESC')
+        date_dict = defaultdict(list)
+        for d in date_list:
+            date_dict[d.year].append(d.month)
+        return sorted(date_dict.items(), reverse=True)
 
 class Article(models.Model):
     STATUS_CHOICES = (
@@ -24,12 +38,15 @@ class Article(models.Model):
                                  null=True,
                                  on_delete=models.SET_NULL)
     tags = models.ManyToManyField('Tag', verbose_name='标签集合', blank=True)
-
+    objects = ArticleManage()
     def __unicode__(self):
         return u'%s' % self.title
 
     class Meta:
         ordering = ['-last_modified_time']
+
+    def get_absolute_url(self):
+        return reverse('blog:detail', kwargs={'article_id': self.pk})
 
 
 class Category(models.Model):
@@ -50,3 +67,13 @@ class Tag(models.Model):
 
     def __unicode__(self):
         return u'%s' % self.name
+
+class BlogComment(models.Model):
+    user_name = models.CharField('评论者名字', max_length=100)
+    user_email = models.EmailField('评论者邮箱', max_length=255)
+    body = models.TextField('评论内容')
+    created_time = models.DateTimeField('评论发表时间', auto_now_add=True)
+    article = models.ForeignKey('Article', verbose_name='评论所属文章', on_delete=models.CASCADE)
+
+    def __unicode__(self):
+        return u'%s' % self.body[:20]

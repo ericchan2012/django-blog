@@ -2,21 +2,22 @@
 {% load staticfiles %}
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>Myblog</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>小小工程师 | 专注于儿童创客教育分享</title>
     <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'blog/css/pygments/github.css' %}">
     <link rel="stylesheet" href="{% static 'lib/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'blog/css/pygments/github.css' %}">
 </head>
 <body>
-<div id="header">
+<div id="header" style="background-color:#455a64;">
     <div id="header-warp">
         <a href="{% url 'blog:index' %}" title="第一个博客" id="logo"></a>
         <ul id="header-nav">
             <li><a href="{% url 'blog:index' %}">首页</a></li>
             <li><a href="{% url 'blog:index' %}">关于</a></li>
         </ul>
+
         <div id="header-right" class="login">
             <div id="user-info">
                 <span id="dropdown-button">登录</span>
@@ -24,6 +25,7 @@
         </div>
     </div>
 </div>
+
 
 {% block content %}{% endblock %}
 
