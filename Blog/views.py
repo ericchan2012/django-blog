@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from Blog.models import Article, Category
+from Blog.models import Article, Category,Tag
 from markdown import markdown
 
 class IndexView(ListView):
@@ -12,7 +12,7 @@ class IndexView(ListView):
     def get_queryset(self):
         article_list = Article.objects.filter(status='p')
         for article in article_list:
-            article.body = markdown(article.body, )
+            article.body = markdown(article.body, extras=['fenced-code-blocks'],)
         return article_list
 
     def get_context_data(self, **kwargs):
@@ -33,6 +33,22 @@ class CategoryView(ListView):
         kwargs['category_list'] = Category.objects.all().order_by('name')
         return super(CategoryView, self).get_context_data(**kwargs)
 
+class TagView(ListView):
+    template_name = "blog/index.html"
+    context_object_name = "article_list"
+
+    def get_queryset(self):
+        """
+        根据指定的标签获取该标签下的全部文章
+        """
+        article_list = Article.objects.filter(tags=self.kwargs['tag_id'], status='p')
+        for article in article_list:
+            article.body = markdown(article.body, extras=['fenced-code-blocks'], )
+        return article_list
+
+    def get_context_data(self, **kwargs):
+        kwargs['tag_list'] = Tag.objects.all().order_by('name')
+        return super(TagView, self).get_context_data(**kwargs)
 
 class ArticleDetailView(DetailView):
     model = Article
@@ -42,5 +58,5 @@ class ArticleDetailView(DetailView):
 
     def get_object(self):
         obj = super(ArticleDetailView, self).get_object()
-        obj.body = markdown(obj.body)
+        obj.body = markdown(obj.body,extras=['fenced-code-blocks'],)
         return obj
