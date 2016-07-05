@@ -25,7 +25,7 @@ SECRET_KEY = 'k((=1bqi$!f)d2rywb$dzaw+yvrhgz_fwwwo_p+ge04mume3f&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -67,6 +67,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
+                'django.core.context_processors.static',
             ],
         },
     },
@@ -123,4 +125,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES = os.path.join(BASE_DIR, 'blog/static')
+STATICFILES = os.path.join(BASE_DIR, 'Blog/static')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')

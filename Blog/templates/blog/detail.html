@@ -1,42 +1,145 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div id="bd" class="wrp clear-fix">
-                <div id="main">
-                    <div id="detail-title">
-                        <ul id="single-nav">
-                            <li><a href="{% url 'blog:index' %}">首页</a></li>
-                            <li>&gt;</li>
-                            <li>
-                                <ul class="post-categories">
-                                    <li><a href="" title=""
-                                           rel="category">{{ article.category.name }}</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>&gt;</li>
-                            <li class="title-active"><a href="{% url 'blog:detail' article.pk %}"
-                                                        rel="bookmark">{{ article.title }}</a>
-                            </li>
-                        </ul>
+<div id="main">
+
+    <div class="ui container stackable grid">
+
+        <div class="articles eleven wide column">
+
+            <div class="ui segment">
+
+                <a class="ui red ribbon label" href="{% url 'blog:category' article.category.pk %}" target="_blank"><i
+                        class="world icon"></i>{{ article.category.name }}</a>
+                <div class="article">
+                    <div class="header"><a href="./这本书送给你_ 编程派 _ Coding Python_files/这本书送给你_ 编程派 _ Coding Python.html">
+                        <h1>这本书送给你</h1></a></div>
+                    <div class="ui feed">
+                        <div class="event">
+                            <div class="label"><img src="./这本书送给你_ 编程派 _ Coding Python_files/logo(1).png"
+                                                    alt="avatar of this article&#39;s author EarlGrey"
+                                                    data-title="oneil" class="avatar"></div>
+                            <div class="content">
+                                <span class="date"><span class="" data-timestamp="2016-07-04T12:20:17"
+                                                         data-format="fromNow(0)" data-refresh="0" style="">{{ article.last_modified_time }}</span></span>
+
+                                <span class="share-article avatar" data-title="阅读数"><i class="eye icon"></i>118</span>
+                            </div>
+                        </div>
                     </div>
-                    <div id="post-1951"
-                         class="post-1951 post type-post status-publish format-standard hentry category-meida-report">
-                        <div class="post-hd">
-                            <h1 class="title">{{ article.title }}</h1>
-                        </div>
-                        <div class="date-read">
-                            <i class="icon-date"></i><span
-                                class="date">{{ article.last_modified_time|date:"Y年n月d日" }}</span>
-                        </div>
+
+
+                    <div class="image" style="padding-top: 0;text-align:center">
+
+                        <img src="http://ww1.sinaimg.cn/large/44287191gw1excbq6tb3rj21400migrz.jpg" alt="这本书送给你">
+                    </div>
+
+
+                    <div class="article-content">
+
                         <div class="post-bd">
                             {{ article.body |safe }}
+                        </div>
+                        <div class="copyright-box ui segment secondary grey">
+                            <p>本站文章除注明转载外，均为本站原创或编译，如需转载，请联系微信公众号“小小工程师”获得授权。转载时，应注明来源、作者及原文链接。</p>
+                        </div>
+
+
+                        <div class="ui divider"></div>
+                        <div class="nearby">
+
+                            <div class="ui animated basic button teal" data-content="Guido老爹谈Python的未来"
+                                 data-variation="wide">
+                                <div class="visible content">上一篇</div>
+                                <a href="http://www.codingpy.com/article/guido-van-rossum-on-pythons-next-steps/">
+                                    <div class="hidden content">
+                                        <i class="left arrow icon"></i>
+                                    </div>
+                                </a>
+                            </div>
+
+
+                            <div class="share-article ui button teal icon basic">
+                                <i class="share alternate icon"></i>
+                            </div>
+                            <div class="ui popup">
+                                <div class="bdsharebuttonbox bdshare-button-style1-24" data-bd-bind="1467690527697">
+                                    <a href="http://www.codingpy.com/article/python-algorithms-for-my-friends/#"
+                                       class="item bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+                                    <a href="http://www.codingpy.com/article/python-algorithms-for-my-friends/#"
+                                       class="item bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                    <a href="http://www.codingpy.com/article/python-algorithms-for-my-friends/#"
+                                       class="item bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+                                    <a href="http://www.codingpy.com/article/python-algorithms-for-my-friends/#"
+                                       class="item bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                                    <a href="http://www.codingpy.com/article/python-algorithms-for-my-friends/#"
+                                       class="item bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
             {% include 'blog/comment.html' %}
         </div>
-    </div>
-{% endblock %}
+        {% endblock %}
+
+        <script>
+var disqus_config = function () {
+this.page.url = "http://www.codingpy.com/article/python-algorithms-for-my-friends/";
+this.page.identifier = "/article/python-algorithms-for-my-friends/";
+};
+
+(function() {
+var d = document, s = d.createElement('script');
+
+s.src = '//codingpy.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+
+        </script>
+        <noscript>Please enable JavaScript to view the &lt;a href="https://disqus.com/?ref_noscript" rel="nofollow"&gt;comments
+            powered by Disqus.&lt;/a&gt;</noscript>
+
+
+        <!--  <div class="container">
+              <div class="row">
+                  <div id="bd" class="wrp clear-fix">
+                      <div id="main">
+                          <div id="detail-title">
+                              <ul id="single-nav">
+                                  <li><a href="{% url 'blog:index' %}">首页</a></li>
+                                  <li>&gt;</li>
+                                  <li>
+                                      <ul class="post-categories">
+                                          <li><a href="{% url 'blog:category' article.category.pk %}" title=""
+                                                 rel="category">{{ article.category.name }}</a>
+                                          </li>
+                                      </ul>
+                                  </li>
+                                  <li>&gt;</li>
+                                  <li class="title-active"><a href="{% url 'blog:detail' article.pk %}"
+                                                              rel="bookmark">{{ article.title }}</a>
+                                  </li>
+                              </ul>
+                          </div>
+                          <div id="post-1951"
+                               class="post-1951 post type-post status-publish format-standard hentry category-meida-report">
+                              <div class="post-hd">
+                                  <h1 class="title">{{ article.title }}</h1>
+                              </div>
+                              <div class="date-read">
+                                  <i class="icon-date"></i><span
+                                      class="date">{{ article.last_modified_time|date:"Y年n月d日" }}</span>
+                              </div>
+                              <div class="post-bd">
+                                  {{ article.body |safe }}
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  {% include 'blog/comment.html' %}
+              </div>
+          </div>-->

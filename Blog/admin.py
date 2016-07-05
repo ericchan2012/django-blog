@@ -5,7 +5,7 @@ from django.contrib import admin
 from .models import Article,Category,Tag,BlogComment
 
 class ArticleAdmin(admin.ModelAdmin):
-    fields = ['title', 'body','status','abstract','category','tags']
+    fields = ['title', 'body','thumbnail','status','abstract','category','tags']
 
 admin.site.register(Article,ArticleAdmin)
 

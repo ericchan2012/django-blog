@@ -2,11 +2,12 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from Blog.models import Article, Category,Tag,BlogComment
+from Blog.models import Article, Category, Tag, BlogComment
 from Blog.forms import BlogCommentForm
 from markdown import markdown
 from django.views.generic.edit import FormView
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
+
 
 class IndexView(ListView):
     template_name = "blog/index.html"
@@ -15,7 +16,7 @@ class IndexView(ListView):
     def get_queryset(self):
         article_list = Article.objects.filter(status='p')
         for article in article_list:
-            article.body = markdown(article.body, extras=['fenced-code-blocks'],)
+            article.body = markdown(article.body, extras=['fenced-code-blocks'], )
         return article_list
 
     def get_context_data(self, **kwargs):
@@ -23,6 +24,7 @@ class IndexView(ListView):
         kwargs['tag_list'] = Tag.objects.all().order_by('name')
         kwargs['date_archive'] = Article.objects.archive()
         return super(IndexView, self).get_context_data(**kwargs)
+
 
 class CategoryView(ListView):
     template_name = "blog/index.html"
@@ -37,6 +39,7 @@ class CategoryView(ListView):
     def get_context_data(self, **kwargs):
         kwargs['category_list'] = Category.objects.all().order_by('name')
         return super(CategoryView, self).get_context_data(**kwargs)
+
 
 class TagView(ListView):
     template_name = "blog/index.html"
@@ -55,6 +58,7 @@ class TagView(ListView):
         kwargs['tag_list'] = Tag.objects.all().order_by('name')
         return super(TagView, self).get_context_data(**kwargs)
 
+
 class ArticleDetailView(DetailView):
     model = Article
     template_name = "blog/detail.html"
@@ -63,13 +67,14 @@ class ArticleDetailView(DetailView):
 
     def get_object(self):
         obj = super(ArticleDetailView, self).get_object()
-        obj.body = markdown(obj.body,extras=['fenced-code-blocks'],)
+        obj.body = markdown(obj.body, extras=['fenced-code-blocks'], )
         return obj
 
     def get_context_data(self, **kwargs):
         kwargs['comment_list'] = self.object.blogcomment_set.all()
         kwargs['form'] = BlogCommentForm()
         return super(ArticleDetailView, self).get_context_data(**kwargs)
+
 
 class ArchiveView(ListView):
     template_name = "blog/index.html"

@@ -1,84 +1,102 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-9">
-                <div id="category" class="noselect">
-                    <div id="category-title">
-                        <ul>
-                            <li>分类：</li>
-                            {% for category in category_list %}
-                                <li class="cat-item"><a
-                                        href="{% url 'blog:category' category.pk %}">{{ category.name }}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
+<div id="top">
+    <div id="Glide" class="glide ui container glide--carousel glide--horizontal">
+
+        <div class="glide__wrapper">
+            <div id="carousel-example" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#carousel-example" data-slide-to="0" class="active"></li>
+                    <li data-target="#carousel-example" data-slide-to="1"></li>
+                    <li data-target="#carousel-example" data-slide-to="2"></li>
+                </ol><!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="http://ww1.sinaimg.cn/large/44287191gw1excbq6tb3rj21400migrz.jpg" alt="..."/>
+                        <div class="carousel-caption">...</div>
+                    </div>
+                    <div class="item">
+                        <img src="http://ww3.sinaimg.cn/large/44287191gw1excbq5iwm6j21400min3o.jpg" alt="..."/>
+                        <div class="carousel-caption">...</div>
+                    </div>
+                    <div class="item">
+                        <img src="http://ww2.sinaimg.cn/large/44287191gw1excbq4kx57j21400migs4.jpg" alt="..."/>
+                        <div class="carousel-caption">...</div>
                     </div>
                 </div>
+                <!-- Controls -->
+                <a class="left carousel-control" href="#carousel-example" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span></a>
+                <a class="right carousel-control" href="#carousel-example" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span></a>
+            </div>
+        </div>
 
-                <div id="bd" class="wrp clear-fix">
-                    <div id="main">
-                        {% load paginate_tags %}
-                        {% paginate article_list 20 %}
-                        {% for article in article_list %}
-                            <div class="post">
-                                <div class="post-hd">
-                                    <h1 class="title"><a
-                                            href="{% url 'blog:detail' article.pk %}">{{ article.title }}</a></h1>
-                                </div>
-                                <div class="post-bd">
-                                    <!-- 	<p><a href=""><img src="" alt=""></a></p> -->
-                                    <p>{{ article.abstract }}</p>
-                                    <p><a href="" class="more-link"></a></p>
-                                </div>
-                                <div class="post-ft">
-                                    <a href="{% url 'blog:detail' article.id %}" class="more">阅读全文>></a>
-                                    <i class="icon-date"></i>
-                                    <span class="date">{{ article.last_modified_time|date:"Y年n月d日" }}</span>
-                                </div>
-                            </div>
-                        {% endfor %}
-                        {% include 'blog/pagination.html' %}
-                    </div>
+    </div>
+</div>
+           <script>
+ $(function(){
+ $('.carousel').carousel();
+ });
+            </script>
+<div class="ui container stackable grid">
+    <div class="articles eleven wide column">
+        <div class="ui segment">
+            <div class="ui pointing secondary menu brown section-title">
+                <div class="item active"><i class="feed icon"></i>
+                    最新文章
                 </div>
             </div>
+            <div class="js-infinite-layout">
+                <div class="js-infinite-item">
+                    {% load paginate_tags %}
+                    {% paginate article_list 5 %}
+                    {% for article in article_list %}
+                    <a class="ui red ribbon label" href="{% url 'blog:category' article.category.pk %}"><i
+                            class="world icon"></i>{{ article.category.name }}</a>
+                    <div class="article">
+                        <div class="header"><a href="{% url 'blog:detail' article.pk %}"><h2>{{ article.title}}</h2></a>
+                        </div>
 
-            <div class="col-lg-3">
-                <!-- tags -->
-                <h3>标签:</h3>
-                <div class="list-group">
-                    {% for tag in tag_list %}
-                        <a href="{% url 'blog:tag' tag.pk %}" class="list-group-item"><span
-                                class="badge"></span>{{ tag.name }}</a>
-                    {% endfor %}
-                </div>
-
-                <!-- archive -->
-                <h3>文章归档：</h3>
-                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                    {% for year,months in date_archive %}
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="heading{{ forloop.counter }}">
-                                <h4 class="panel-title">
-                                    <a role="button" data-toggle="collapse" data-parent="#accordion"
-                                       href="#collapse{{ forloop.counter }}"
-                                       aria-expanded="true" aria-controls="collapse{{ forloop.counter }}">
-                                        {{ year }} 年
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse in" role="tabpanel"
-                                 aria-labelledby="heading{{ forloop.counter }}">
-                                <div class="panel-body">
-                                    {% for month in months %}
-                                        <a href="{% url 'blog:archive' year month %}"><p>{{ month }} 月</p></a>
-                                    {% endfor %}
+                        <div class="image ">
+                            <div style="background-image: url('{{ article.thumbnail.url }}');"
+                                 class="article-thumb dimmable lazy-hidden">
+                                <div class="ui dimmer">
+                                    <div class="content">
+                                        <div class="center">
+                                            <a href="{% url 'blog:detail' article.id %}">
+                                                <div class="ui inverted button">查看详情</div>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="article-content">
+                            <div class="description">
+                                <p>{{ article.abstract }}</p>
+                            </div>
+                        </div>
+                        <div class="ui feed">
+                            <div class="event">
+                                <div class="label">
+                                    <img src="http://codingpy.com/static/images/logo.png" alt="avatar of oneil" data-title="oneil" class="avatar">
+                                </div>
+                                <div class="content">
+                                        <span class="date"><span class="" data-refresh="0"
+                                                                 style="">{{ article.last_modified_time|date:"Y-m-d H:i:s"}}</span></span>
+                                    <span class="share-article"><i class="eye icon"></i>{{ article.views }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui divider"></div>
                     {% endfor %}
+                    {% include 'blog/pagination.html' %}
                 </div>
+
             </div>
         </div>
     </div>
-{% endblock %}
+    {% endblock %}

@@ -1,45 +1,167 @@
 <!DOCTYPE html>
 {% load staticfiles %}
+{% load i18n %}
 <html lang="zh-CN">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>小小工程师 | 专注于儿童创客教育分享</title>
-    <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/css/home.css' %}">
     <link rel="stylesheet" href="{% static 'blog/css/pygments/github.css' %}">
     <link rel="stylesheet" href="{% static 'lib/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'blog/css/pygments/github.css' %}">
 </head>
-<body>
-<div id="header" style="background-color:#455a64;">
-    <div id="header-warp">
-        <a href="{% url 'blog:index' %}" title="第一个博客" id="logo"></a>
-        <ul id="header-nav">
-            <li><a href="{% url 'blog:index' %}">首页</a></li>
-            <li><a href="{% url 'blog:index' %}">关于</a></li>
-        </ul>
+<body class="pushable">
+<div class="pusher">
+    <nav id="navbar" class="ui stripe">
+        <div class="ui container inverted secondary menu">
+            <div class="header item">
+                <a href="{% url 'blog:index' %}" target="_blank" title="littleengineer.com"><img class="ui logo"
+                                                                                                 src="{% static 'blog/img/django.png' %}"
+                                                                                                 alt="小小工程师的logo"></a>
+            </div>
+            <a class="toc item">
+                <i class="sidebar icon"></i>
+            </a>
+            <a class="item" href="{% url 'blog:index' %}" target="_blank">首页</a>
+            <a class="item" href="/category/news/" target="_blank">资讯</a>
+            <a class="item" href="/category/tutorials/" target="_blank">教程</a>
+            <a class="item" href="/category/katas/" target="_blank">资源</a>
+            <a class="item" href="/category/downloads/" target="_blank">讨论</a>
+            <div class="right menu">
+                <div class="item">
+                    <div class="ui search">
+                        <div class="ui left icon input">
+                            <input autocomplete="off" class="prompt" placeholder="输入中文搜索词后请空格" name="keywords"
+                                   id="keywords" type="text">
+                            <i class="search icon"></i>
+                        </div>
+                        <div class="results"></div>
+                    </div>
+                </div>
 
-        <div id="header-right" class="login">
-            <div id="user-info">
-                <span id="dropdown-button">登录</span>
             </div>
         </div>
+    </nav>
+
+    <div id="main">
+
+        {% block content %}{% endblock %}
+        <aside id="related__wrapper">
+            <div class="ui sticky"
+                 style="width: 333px !important; height: 449px !important; margin-top: 13px; left: 1182.06px;">
+
+                <div class="ui segment">
+                    <div class="ui pointing secondary menu blue section-title">
+                        <div class="item active"><i class="tags icon"></i>热门文章</div>
+                    </div>
+
+                    <div class="ui tab active" data-tab="recommend">
+                        <div class="ui relaxed divided animated list">
+
+
+                            <div class="item">
+                                <i class="fork icon"></i>
+                                <div class="content">
+                                    <a title="如果你也想写Flask"
+                                       href="http://codingpy.com/article/if-you-also-want-to-write-flask/"
+                                       target="_blank">如果你也想写Flask</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui segment">
+                    <div class="ui pointing secondary menu red section-title">
+                        <div class="item active"><i class="tags icon"></i>热门标签</div>
+                    </div>
+
+                    <div class="ui labels">
+                        {% for tag in tag_list %}
+                        <a href="{% url 'blog:tag' tag.pk %}" class="ui label"><span class="badge"></span>{{ tag.name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="ui segment">
+                    <div id="tab-nav" class="ui pointing secondary menu teal">
+                        <a class="item active" data-tab="recommend">经典教程</a>
+                    </div>
+                    <div class="ui tab active" data-tab="recommend">
+                        <div class="ui relaxed divided animated list">
+                            <div class="item">
+                                <i class="ui book icon"></i>
+                                <div class="content">
+                                    <a title="树莓派系列" href="#"
+                                       target="_blank" alt="树莓派系列">树莓派系列</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="follow-me ui segment">
+                    <div class="ui pointing secondary menu green section-title">
+                        <div class="item active"><i class="wechat icon"></i>扫码关注小小工程师</div>
+                    </div>
+                    <img class="ui image fluid rounded centered" src="{% static 'blog/img/oneil.jpg' %}" style="width:220px;"
+                         alt="扫码关注小小工程师的微信公众号">
+                </div>
+            </div>
+        </aside>
     </div>
-</div>
 
 
-{% block content %}{% endblock %}
+    <footer>
 
-<div id="footer" class="noselect">
-    <ul id="ft-links">
-        <li><a href="" target="_blank">友情链接1</a></li>
-    </ul>
-    <ul id="ft-about-links">
-        <li><a href="" target="_blank">友情链接2</a></li>
-    </ul>
-    <div id="copyright">&copy; djangoBlog</div>
-</div>
-<script type="text/javascript" src="{% static 'blog/js/jquery.js' %}"></script>
-<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-<script type="text/javascript" src="{% static 'lib/js/bootstrap.min.js' %}"></script>
+        <div class="ui inverted vertical footer segment">
+            <div class="ui container">
+                <div class="ui stackable inverted divided equal height stackable grid">
+                    <div class="three wide column">
+                        <h4 class="ui inverted header">关于小小工程师</h4>
+                        <div class="ui inverted link list">
+                            <a href="http://xiaoengineer.com/" class="item">联系我们</a>
+                            <a href="http://www.miitbeian.gov.cn/">粤ICP备16052947</a>
+                        </div>
+                    </div>
+                    <div class="three wide column">
+                        <h4 class="ui inverted header">关注编程派</h4>
+                        <a class="ui circular weibo red icon button" href="http://weibo.com/littleengineer"
+                           target="_blank">
+                            <i class="weibo icon"></i>
+                        </a>
+                        <a class="ui circular twitter icon button" href="https://twitter.com/littleengineer"
+                           target="_blank">
+                            <i class="twitter icon"></i>
+                        </a>
+                        <a class="ui circular icon button" href="http://github.com/littleengineer" target="_blank">
+                            <i class="github alternate blue icon"></i>
+                        </a>
+                        <!--  <a class="ui circular icon button" href="http://codingpy.com/feed/" target="_blank">
+                              <i class="rss brown icon"></i>
+                          </a>-->
+
+                    </div>
+                    <div class="three wide column">
+                        <h4 class="ui inverted header">导航</h4>
+                        <div class="ui inverted link list">
+                            <a target="_blank" href="#" class="item">资讯</a>
+                            <a target="_blank" href="#" class="item">教程</a>
+                            <a target="_blank" href="#" class="item">资源</a>
+                            <a target="_blank" href="#" class="item">讨论</a>
+                        </div>
+                    </div>
+                    <div class="seven wide column">
+                        <h4 class="ui inverted header">Powered by</h4>
+                        <div class="ui images">
+                            <a target="_blank" href="https://www.djangoproject.com/"><img
+                                    src="{% static 'blog/img/django.png' %}" alt="django"></a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+    <script type="text/javascript" src="{% static 'blog/js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/js/bootstrap.min.js' %}"></script>
 </body>
 </html>
