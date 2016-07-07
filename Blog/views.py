@@ -40,6 +40,7 @@ class NavigationView(ListView):
 
     def get_context_data(self, **kwargs):
         kwargs['navigation_list'] = Article.objects.all().order_by('name')
+        kwargs['category_list'] = Category.objects.all().order_by('name')
         kwargs['hotarticle_list'] = Article.objects.all().order_by('-views')[:8]
         kwargs['tag_list'] = Tag.objects.all().order_by('name')
         return super(NavigationView, self).get_context_data(**kwargs)

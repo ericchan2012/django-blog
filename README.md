@@ -1,6 +1,15 @@
 # django-blog
 A simple cms system implemented by django
 
+python3.5 + django1.9.7
+
+pip install markdown
+pip install django-pagedown
+pip install pygments
+pip install django-grappelli
+pip install pillow
+pip install pytz
+
 本系统基于一个博客系统进行改造而成，目的是为了做成一个资讯类网站。
 5人django小组，加入者以志愿未原则，学习为目的，加入者需遵守以下规则：
 
