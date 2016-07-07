@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load custom_markdown %}
 {% block content %}
 <div id="main">
 
@@ -8,21 +9,19 @@
 
             <div class="ui segment">
 
-                <a class="ui red ribbon label" href="{% url 'blog:category' article.category.pk %}" target="_blank"><i
-                        class="world icon"></i>{{ article.category.name }}</a>
+                <a class="ui red ribbon label" href="{% url 'blog:navigation' article.navigation %}" target="_blank"><i
+                        class="world icon"></i>{{ article.get_navigation_display }}</a>
                 <div class="article">
-                    <div class="header"><a href="./这本书送给你_ 编程派 _ Coding Python_files/这本书送给你_ 编程派 _ Coding Python.html">
-                        <h1>这本书送给你</h1></a></div>
+                    <div class="header"><a href="{% url 'blog:detail' article.pk %}">
+                        <h1>{{ article.title }}</h1></a></div>
                     <div class="ui feed">
                         <div class="event">
-                            <div class="label"><img src="./这本书送给你_ 编程派 _ Coding Python_files/logo(1).png"
+                            <div class="label"><img src="http://codingpy.com/static/images/logo.png"
                                                     alt="avatar of this article&#39;s author EarlGrey"
                                                     data-title="oneil" class="avatar"></div>
                             <div class="content">
-                                <span class="date"><span class="" data-timestamp="2016-07-04T12:20:17"
-                                                         data-format="fromNow(0)" data-refresh="0" style="">{{ article.last_modified_time }}</span></span>
-
-                                <span class="share-article avatar" data-title="阅读数"><i class="eye icon"></i>118</span>
+                                <span class="date"><span class="" data-refresh="0" style=""><h5>{{ article.last_modified_time|date:"Y-m-d H:i:s"}}</h5></span></span>
+                                <span class="share-article avatar" data-title="阅读数" hidden><i class="eye icon"></i>{{ article.views }}</span>
                             </div>
                         </div>
                     </div>
@@ -30,14 +29,14 @@
 
                     <div class="image" style="padding-top: 0;text-align:center">
 
-                        <img src="http://ww1.sinaimg.cn/large/44287191gw1excbq6tb3rj21400migrz.jpg" alt="这本书送给你">
+                        <img src="{{ article.thumbnail.url }}" alt="{{ article.title }}">
                     </div>
 
 
                     <div class="article-content">
 
                         <div class="post-bd">
-                            {{ article.body |safe }}
+                            {{ article.body | custom_markdown }}
                         </div>
                         <div class="copyright-box ui segment secondary grey">
                             <p>本站文章除注明转载外，均为本站原创或编译，如需转载，请联系微信公众号“小小工程师”获得授权。转载时，应注明来源、作者及原文链接。</p>
@@ -46,7 +45,6 @@
 
                         <div class="ui divider"></div>
                         <div class="nearby">
-
                             <div class="ui animated basic button teal" data-content="Guido老爹谈Python的未来"
                                  data-variation="wide">
                                 <div class="visible content">上一篇</div>
@@ -57,6 +55,15 @@
                                 </a>
                             </div>
 
+                            <div class="ui animated basic button teal" data-content="Guido老爹谈Python的未来"
+                                 data-variation="wide">
+                                <div class="visible content">下一篇</div>
+                                <a href="http://www.codingpy.com/article/guido-van-rossum-on-pythons-next-steps/">
+                                    <div class="hidden content">
+                                        <i class="left arrow icon"></i>
+                                    </div>
+                                </a>
+                            </div>
 
                             <div class="share-article ui button teal icon basic">
                                 <i class="share alternate icon"></i>
@@ -98,6 +105,7 @@ s.src = '//codingpy.disqus.com/embed.js';
 s.setAttribute('data-timestamp', +new Date());
 (d.head || d.body).appendChild(s);
 })();
+
 
         </script>
         <noscript>Please enable JavaScript to view the &lt;a href="https://disqus.com/?ref_noscript" rel="nofollow"&gt;comments

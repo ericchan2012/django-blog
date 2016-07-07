@@ -21,10 +21,28 @@ class IndexView(ListView):
 
     def get_context_data(self, **kwargs):
         kwargs['category_list'] = Category.objects.all().order_by('name')
+        kwargs['navigation_list'] = Article.objects.all().order_by('name')
+        kwargs['hotarticle_list'] = Article.objects.all().order_by('-views')[:8]
+        kwargs['carouselarticle_list'] = Article.objects.all().order_by('-last_modified_time')[:3]
         kwargs['tag_list'] = Tag.objects.all().order_by('name')
         kwargs['date_archive'] = Article.objects.archive()
         return super(IndexView, self).get_context_data(**kwargs)
 
+class NavigationView(ListView):
+    template_name = "blog/index.html"
+    context_object_name = "article_list"
+
+    def get_queryset(self):
+        article_list = Article.objects.filter(navigation=self.kwargs['nav_id'], status='p')
+        for article in article_list:
+            article.body = markdown(article.body, extras=['fenced-code-blocks'], )
+        return article_list
+
+    def get_context_data(self, **kwargs):
+        kwargs['navigation_list'] = Article.objects.all().order_by('name')
+        kwargs['hotarticle_list'] = Article.objects.all().order_by('-views')[:8]
+        kwargs['tag_list'] = Tag.objects.all().order_by('name')
+        return super(NavigationView, self).get_context_data(**kwargs)
 
 class CategoryView(ListView):
     template_name = "blog/index.html"
@@ -72,6 +90,8 @@ class ArticleDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         kwargs['comment_list'] = self.object.blogcomment_set.all()
+        kwargs['hotarticle_list'] = Article.objects.all().order_by('-views')[:8]
+        kwargs['tag_list'] = Tag.objects.all().order_by('name')
         kwargs['form'] = BlogCommentForm()
         return super(ArticleDetailView, self).get_context_data(**kwargs)
 

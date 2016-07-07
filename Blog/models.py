@@ -5,6 +5,7 @@ from django.db import models
 from collections import defaultdict
 from django.core.urlresolvers import reverse
 
+
 UPLOAD_ROOT = 'upload'
 
 class ArticleManage(models.Manager):
@@ -22,15 +23,21 @@ class ArticleManage(models.Manager):
 
 class Article(models.Model):
     STATUS_CHOICES = (
-        ('d', 'Draft'),
-        ('p', 'Published'),
+        ('d', u'草稿'),
+        ('p', u'发布'),
     )
 
+    NAVIGATION_CHOICES = (
+        ('0', u'新闻'),
+        ('1', u'教程'),
+        ('2', u'资源'),
+    )
     title = models.CharField('标题', max_length=70)
     body = models.TextField('正文')
     created_time = models.DateTimeField('创建时间', auto_now_add=True)
     last_modified_time = models.DateTimeField('修改时间', auto_now=True)
-    status = models.CharField('文章状态', max_length=1, choices=STATUS_CHOICES)
+    status = models.CharField('文章状态', max_length=1, choices=STATUS_CHOICES,default=STATUS_CHOICES[1][0])
+    navigation = models.CharField('导航名字', max_length=1, choices=NAVIGATION_CHOICES, default=NAVIGATION_CHOICES[0][0])
     abstract = models.CharField('摘要', max_length=150, blank=True, null=True,
                                 help_text="可选，如若为空将摘取正文的前150个字符")
     views = models.PositiveIntegerField('浏览量', default=0)
@@ -38,7 +45,7 @@ class Article(models.Model):
     topped = models.BooleanField('置顶', default=False)
     thumbnail = models.ImageField('封面',upload_to='upload/thumbnail')
 
-    category = models.ForeignKey('Category', verbose_name='分类',
+    category = models.ForeignKey('Category', verbose_name='经典教程类别',
                                  null=True,
                                  on_delete=models.SET_NULL)
     tags = models.ManyToManyField('Tag', verbose_name='标签集合', blank=True)
@@ -52,10 +59,9 @@ class Article(models.Model):
 
     def get_absolute_url(self):
         return reverse('blog:detail', kwargs={'article_id': self.pk})
-
-
+#for 经典教程
 class Category(models.Model):
-    name = models.CharField('类名', max_length=20)
+    name = models.CharField('经典教程类名', max_length=20)
     created_time = models.DateTimeField('创建时间', auto_now_add=True)
     last_modified_time = models.DateTimeField('修改时间', auto_now=True)
 

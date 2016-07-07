@@ -19,6 +19,8 @@ import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    url(r'^grappelli/',include('grappelli.urls')),
+    url(r'^ueditor/',include('DjangoUeditor.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^blog/', include('Blog.urls',namespace='blog', app_name='blog')),
 ]   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
