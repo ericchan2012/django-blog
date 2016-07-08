@@ -65,11 +65,11 @@
                                 </a>
                             </div>
 
-                            <div class="share-article ui button teal icon basic">
+                           <!-- <div class="share-article ui button teal icon basic" hidden>
                                 <i class="share alternate icon"></i>
                             </div>
-                            <div class="ui popup">
-                                <div class="bdsharebuttonbox bdshare-button-style1-24" data-bd-bind="1467690527697">
+                            <div class="ui popup" hidden>
+                                <div class="bdsharebuttonbox bdshare-button-style1-24" data-bd-bind="1467690527697" hidden>
                                     <a href="http://www.codingpy.com/article/python-algorithms-for-my-friends/#"
                                        class="item bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
                                     <a href="http://www.codingpy.com/article/python-algorithms-for-my-friends/#"
@@ -81,11 +81,38 @@
                                     <a href="http://www.codingpy.com/article/python-algorithms-for-my-friends/#"
                                        class="item bds_weixin" data-cmd="weixin" title="分享到微信"></a>
                                 </div>
-                            </div>
+                            </div>-->
 
                         </div>
                     </div>
                 </div>
+            </div>
+            <div id="related__wrapper" class="ui segment related-articles" hidden>
+                <div class="ui pointing secondary menu section-title">
+                    <div class="item active"><i class="tags icon"></i>相关文章</div>
+                </div>
+                <div class="ui three stackable cards">
+
+                    {% for article in relative_article_list %}
+                    <div class="ui fluid link card">
+
+                        <a href="http://codingpy.com/article/data-science-quickstart-with-docker/"
+                           title="如何使用Docker快速配置数据科学开发环境？">
+                            <div class="image">
+                                <div class="related-thumb"
+                                     data-bg="http://codingpy.com/static/thumbnails/wKioL1UZ_2XSppDSAAAjmR1-eDE735.jpg"></div>
+                            </div>
+                        </a>
+
+                        <div class="content">
+                            <a class="header"
+                               href="http://codingpy.com/article/data-science-quickstart-with-docker/">如何使用Docker快速配置数据科学开发环境？</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+
             </div>
             {% include 'blog/comment.html' %}
         </div>
@@ -105,6 +132,8 @@ s.src = '//codingpy.disqus.com/embed.js';
 s.setAttribute('data-timestamp', +new Date());
 (d.head || d.body).appendChild(s);
 })();
+
+
 
 
         </script>

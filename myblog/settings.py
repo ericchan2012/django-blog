@@ -30,9 +30,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'Blog',
-    'markdown',
-    'pygments',
     'pagedown',
     'grappelli',
     'django.contrib.admin',
@@ -41,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Blog',
+    'markdown',
+    'pygments',
 ]
 
 MIDDLEWARE_CLASSES = [
